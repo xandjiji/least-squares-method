@@ -664,6 +664,80 @@ for(let i = 0; i < arrayFuncoes.length; i++){
 
 /********************* RESOLVENDO SISTEMA LINEAR *********************/
 
+function ordenaDecrescente(matriz){
 
+    for(let i = 0; i < matriz.length; i++){
+        for(let j = (i + 1); j < matriz.length; j++){
+            if(Math.abs(matriz[j][0]) > Math.abs(matriz[i][0])){
+    
+                trocaLinha(matriz, j, i)
+            }
+        }
+    }    
+}
+
+function trocaLinha(matriz, a, b){
+    var aux = matriz[a];
+
+    matriz[a] = matriz[b];
+    matriz[b] = aux;
+}
+
+function eliminacaoGauss(matriz){
+
+    // eliminacao pra frente
+    for(let k = 0; k < matriz.length - 1; k++){
+
+
+        for(let i = k; i < matriz.length; i++){
+            reduzLinha(matriz[i], k);
+        }
+        for(let i = k + 1; i < matriz.length; i++){
+            subtraiLinha(matriz[k], matriz[i]);
+        }
+
+    }
+
+    reduzLinha(matriz[matriz.length - 1], (matriz[0].length - 2));
+
+
+    
+    // substituicao pra tras
+    var conta = 0;
+    for(let k = matriz.length - 1; k > -1; k--){
+
+        for(let i = 0; i < matriz.length - conta; i++){
+            reduzLinha(matriz[i], k);
+        }
+        for(let i = 0; i < matriz.length - conta - 1; i++){
+            subtraiLinha(matriz[k], matriz[i]);
+        }
+        conta++;
+    }
+
+    reduzLinha(matriz[0], 0);
+}
+
+function multiplicaLinha(linha, multiplicador){
+    for(let i = 0; i < linha.length; i++){
+
+        linha[i] = (linha[i] * multiplicador);
+    }
+}
+
+function subtraiLinha(linhaA, linhaB){
+    for(let i = 0; i < linhaA.length; i++){
+
+        linhaB[i] = linhaB[i] - linhaA[i];
+    }
+}
+
+function reduzLinha(linha, coluna){
+    var multiplicador = (1 / linha[coluna]);
+    multiplicaLinha(linha, multiplicador);
+}
+    
+ordenaDecrescente(matrizSomatorio);
+eliminacaoGauss(matrizSomatorio);
 
 console.log(matrizSomatorio);
