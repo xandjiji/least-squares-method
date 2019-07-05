@@ -695,7 +695,6 @@ function eliminacaoGauss(matriz){
 
     
     // substituicao pra tras
-
     var conta = 0;
     for(let k = matriz.length - 1; k > -1; k--){
 
@@ -739,4 +738,27 @@ console.log(matrizSomatorio);
 console.log('a1 = ' + matrizSomatorio[0][3]);
 console.log('a2 = ' + matrizSomatorio[1][3]);
 console.log('a3 = ' + matrizSomatorio[2][3]);
+
+
+function renderTabela(matriz){
+    let html = "<table>";
+
+    for(let i = 0; i < matriz.length; i++){
+        html += "<tr>";
+        html += "<th>a" + (i + 1) + "</th>";
+        for(let j = 0; j < matriz[0].length; j++){
+            html += "<td>" + matriz[i][j] + "</td>";
+        }
+
+        html += "</tr>";
+    }
+
+    html += "</table>";
+
+
+    document.getElementById("tabela").innerHTML = html;
+}
+
+
+renderTabela(matrizSomatorio)
 
