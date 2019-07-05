@@ -607,14 +607,6 @@ var sigma = [
     0.013
 ]
 
-var t2 = [
-    4, 4.2, 4.5, 4.7, 5.1, 5.5, 5.9, 6.3, 6.8, 7.1
-]
-
-var yt2 = [
-    102.56, 113.18, 130.11, 142.05, 167.53, 195.14, 224.87, 256.73, 299.50, 326.72
-]
-
 /********************* DEFININDO FUNCOES *********************/
 
 function f1(x){
@@ -642,8 +634,8 @@ for(let i = 0; i < arrayFuncoes.length; i++){
     for(let j = 0; j < arrayFuncoes.length; j++){
 
         var somatorio = 0;
-        for(let k = 0; k < t2.length; k++){
-            let x = t2[k];
+        for(let k = 0; k < t.length; k++){
+            let x = t[k];
             somatorio = somatorio + (arrayFuncoes[i](x) * arrayFuncoes[j](x));
         }
 
@@ -652,9 +644,9 @@ for(let i = 0; i < arrayFuncoes.length; i++){
 
     // calculando vetor solucao
     var somatorio2 = 0;
-    for(let k = 0; k < yt2.length; k++){
-        let x = t2[k];
-        somatorio2 = somatorio2 + (arrayFuncoes[i](x) * yt2[k]);
+    for(let k = 0; k < yt.length; k++){
+        let x = t[k];
+        somatorio2 = somatorio2 + (arrayFuncoes[i](x) * yt[k]);
     }
 
     vetorAux.push(somatorio2);
@@ -703,6 +695,7 @@ function eliminacaoGauss(matriz){
 
     
     // substituicao pra tras
+
     var conta = 0;
     for(let k = matriz.length - 1; k > -1; k--){
 
@@ -740,4 +733,10 @@ function reduzLinha(linha, coluna){
 ordenaDecrescente(matrizSomatorio);
 eliminacaoGauss(matrizSomatorio);
 
+
 console.log(matrizSomatorio);
+
+console.log('a1 = ' + matrizSomatorio[0][3]);
+console.log('a2 = ' + matrizSomatorio[1][3]);
+console.log('a3 = ' + matrizSomatorio[2][3]);
+
