@@ -1,3 +1,169 @@
+/********************* DEFININDO FUNCOES *********************/
+
+function f1(x){
+    return 1;
+}
+
+function f2(x){
+    return x;
+}
+
+function f3(x){
+    return (x * x);
+}
+
+arrayFuncoes = [f1, f2, f3];
+
+/********************* CALCULANDO SISTEMA LINEAR *********************/
+
+var matrizSomatorio = [];
+
+for(let i = 0; i < arrayFuncoes.length; i++){
+    
+    // calculando matriz dos somatorios
+    var vetorAux = [];
+    for(let j = 0; j < arrayFuncoes.length; j++){
+
+        var somatorio = 0;
+        for(let k = 0; k < t.length; k++){
+            let x = t[k];
+
+            // realizando somatorio
+            somatorio = somatorio + (arrayFuncoes[i](x) * arrayFuncoes[j](x));
+        }
+
+        vetorAux.push(somatorio);
+    }
+
+    // calculando a coluna do vetor solucao
+    var somatorio2 = 0;
+    for(let k = 0; k < yt.length; k++){
+        let x = t[k];
+
+        // realizando somatorio
+        somatorio2 = somatorio2 + (arrayFuncoes[i](x) * yt[k]);
+    }
+
+    vetorAux.push(somatorio2);
+
+    matrizSomatorio.push(vetorAux);
+}
+
+renderTabela(matrizSomatorio, 'tabela-1')
+
+
+/********************* RESOLVENDO SISTEMA LINEAR *********************/
+
+// funcao utilizada para o pivoteamento parcial
+function ordenaDecrescente(matriz, coluna){
+
+    for(let i = coluna; i < matriz.length; i++){
+        for(let j = (i + 1); j < matriz.length; j++){
+            if(Math.abs(matriz[j][coluna]) > Math.abs(matriz[i][coluna])){
+    
+                trocaLinha(matriz, j, i)
+            }
+        }
+    }    
+}
+
+function eliminacaoGauss(matriz){
+
+    // eliminacao pra frente
+    for(let k = 0; k < matriz.length - 1; k++){
+
+        // ordena as linhas (pivoteamento parcial)
+        ordenaDecrescente(matriz, k);
+
+        for(let i = k; i < matriz.length; i++){
+            reduzLinha(matriz[i], k);
+        }
+        for(let i = k + 1; i < matriz.length; i++){
+            subtraiLinha(matriz[k], matriz[i]);
+        }
+
+    }
+
+    reduzLinha(matriz[matriz.length - 1], (matriz[0].length - 2));
+
+
+    
+    // substituicao pra tras
+    var conta = 0;
+    for(let k = matriz.length - 1; k > -1; k--){
+
+        for(let i = 0; i < matriz.length - conta; i++){
+            reduzLinha(matriz[i], k);
+        }
+        for(let i = 0; i < matriz.length - conta - 1; i++){
+            subtraiLinha(matriz[k], matriz[i]);
+        }
+        conta++;
+    }
+
+    reduzLinha(matriz[0], 0);
+}
+
+function trocaLinha(matriz, a, b){
+    var aux = matriz[a];
+
+    matriz[a] = matriz[b];
+    matriz[b] = aux;
+}
+
+function multiplicaLinha(linha, multiplicador){
+    for(let i = 0; i < linha.length; i++){
+
+        linha[i] = (linha[i] * multiplicador);
+    }
+}
+
+function subtraiLinha(linhaA, linhaB){
+    for(let i = 0; i < linhaA.length; i++){
+
+        linhaB[i] = linhaB[i] - linhaA[i];
+    }
+}
+
+
+// "reduzir linha" significa mutiplica-la para que o pivo seja = 1
+function reduzLinha(linha, coluna){
+    var multiplicador = (1 / linha[coluna]);
+    multiplicaLinha(linha, multiplicador);
+}
+
+eliminacaoGauss(matrizSomatorio);
+renderTabela(matrizSomatorio, 'tabela-2')
+
+
+/********************* FUNCAO PARA CONSTRUIR A TABELA *********************/
+
+function renderTabela(matriz, div){
+    let html = "<table>";
+
+    for(let i = 0; i < matriz.length; i++){
+        html += "<th>a" + (i + 1) + "</th>";
+    }
+    html += "<th>valor</th>";
+
+    for(let i = 0; i < matriz.length; i++){
+        html += "<tr>";
+        for(let j = 0; j < matriz[0].length; j++){
+            html += "<td>" + matriz[i][j] + "</td>";
+        }
+
+        html += "</tr>";
+    }
+
+    html += "</table>";
+
+
+    document.getElementById(div).innerHTML = html;
+}
+
+
+/********************* DADOS DO ENGENHEIRO *********************/
+
 var t = [
     0.0005,
     0.0010,
@@ -606,159 +772,3 @@ var sigma = [
     0.013,
     0.013
 ]
-
-/********************* DEFININDO FUNCOES *********************/
-
-function f1(x){
-    return 1;
-}
-
-function f2(x){
-    return x;
-}
-
-function f3(x){
-    return (x * x);
-}
-
-arrayFuncoes = [f1, f2, f3];
-
-/********************* CALCULANDO SISTEMA LINEAR *********************/
-
-matrizSomatorio = [];
-
-for(let i = 0; i < arrayFuncoes.length; i++){
-    
-    // calculando matriz
-    var vetorAux = [];
-    for(let j = 0; j < arrayFuncoes.length; j++){
-
-        var somatorio = 0;
-        for(let k = 0; k < t.length; k++){
-            let x = t[k];
-            somatorio = somatorio + (arrayFuncoes[i](x) * arrayFuncoes[j](x));
-        }
-
-        vetorAux.push(somatorio);
-    }
-
-    // calculando vetor solucao
-    var somatorio2 = 0;
-    for(let k = 0; k < yt.length; k++){
-        let x = t[k];
-        somatorio2 = somatorio2 + (arrayFuncoes[i](x) * yt[k]);
-    }
-
-    vetorAux.push(somatorio2);
-
-    matrizSomatorio.push(vetorAux);
-}
-
-/********************* RESOLVENDO SISTEMA LINEAR *********************/
-
-function ordenaDecrescente(matriz){
-
-    for(let i = 0; i < matriz.length; i++){
-        for(let j = (i + 1); j < matriz.length; j++){
-            if(Math.abs(matriz[j][0]) > Math.abs(matriz[i][0])){
-    
-                trocaLinha(matriz, j, i)
-            }
-        }
-    }    
-}
-
-function trocaLinha(matriz, a, b){
-    var aux = matriz[a];
-
-    matriz[a] = matriz[b];
-    matriz[b] = aux;
-}
-
-function eliminacaoGauss(matriz){
-
-    // eliminacao pra frente
-    for(let k = 0; k < matriz.length - 1; k++){
-
-
-        for(let i = k; i < matriz.length; i++){
-            reduzLinha(matriz[i], k);
-        }
-        for(let i = k + 1; i < matriz.length; i++){
-            subtraiLinha(matriz[k], matriz[i]);
-        }
-
-    }
-
-    reduzLinha(matriz[matriz.length - 1], (matriz[0].length - 2));
-
-
-    
-    // substituicao pra tras
-    var conta = 0;
-    for(let k = matriz.length - 1; k > -1; k--){
-
-        for(let i = 0; i < matriz.length - conta; i++){
-            reduzLinha(matriz[i], k);
-        }
-        for(let i = 0; i < matriz.length - conta - 1; i++){
-            subtraiLinha(matriz[k], matriz[i]);
-        }
-        conta++;
-    }
-
-    reduzLinha(matriz[0], 0);
-}
-
-function multiplicaLinha(linha, multiplicador){
-    for(let i = 0; i < linha.length; i++){
-
-        linha[i] = (linha[i] * multiplicador);
-    }
-}
-
-function subtraiLinha(linhaA, linhaB){
-    for(let i = 0; i < linhaA.length; i++){
-
-        linhaB[i] = linhaB[i] - linhaA[i];
-    }
-}
-
-function reduzLinha(linha, coluna){
-    var multiplicador = (1 / linha[coluna]);
-    multiplicaLinha(linha, multiplicador);
-}
-    
-ordenaDecrescente(matrizSomatorio);
-eliminacaoGauss(matrizSomatorio);
-
-
-console.log(matrizSomatorio);
-
-console.log('a1 = ' + matrizSomatorio[0][3]);
-console.log('a2 = ' + matrizSomatorio[1][3]);
-console.log('a3 = ' + matrizSomatorio[2][3]);
-
-
-function renderTabela(matriz){
-    let html = "<table>";
-
-    for(let i = 0; i < matriz.length; i++){
-        html += "<tr>";
-        html += "<th>a" + (i + 1) + "</th>";
-        for(let j = 0; j < matriz[0].length; j++){
-            html += "<td>" + matriz[i][j] + "</td>";
-        }
-
-        html += "</tr>";
-    }
-
-    html += "</table>";
-
-
-    document.getElementById("tabela").innerHTML = html;
-}
-
-
-renderTabela(matrizSomatorio)
-

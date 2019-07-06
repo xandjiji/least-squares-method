@@ -1,18 +1,26 @@
 <!DOCTYPE html>
 <html>
 
-     <head>
-          <title>EP2</title>
-          <link rel="icon"  type="image/x-icon" href="favicon.ico" />
-     </head>
+    <head>
+        <title>EP2</title>
+        <link rel="icon"  type="image/x-icon" href="favicon.ico" />
+    </head>
 
-     <body style="background-color:#323639">
-          <link rel="stylesheet" href="style.css">
+    <body style="background-color:#323639">
+        <link rel="stylesheet" href="style.css">
 
-          <p><a href="https://github.com/xandjiji/least-squares-method" target="_blank">GitHub page</a></p>
+        <p><a href="https://github.com/xandjiji/least-squares-method" target="_blank">GitHub page</a></p>
 
-          <div id="tabela" align="center"></div>
-          <script src="libs/math.min.js"></script>
-          <script src="main.js"></script>
-     </body>
+        <p align="center">Sistema linear baseado nos <a href="https://github.com/xandjiji/least-squares-method/blob/master/dados.js" target="_blank">dados.txt</a>:</p>
+        <div id="tabela-1" align="center"></div>
+
+        <p align="center">Sistema linear resolvido por eliminação de Gauss com pivoteamento parcial:</p>
+        <div id="tabela-2" align="center"></div>
+
+        <p>O código fonte está disponível em: <a href="https://github.com/xandjiji/least-squares-method/blob/master/main.js" target="_blank">main.js</a></p>
+
+        <script src="libs/math.min.js"></script>
+        <script src="dados.js"></script>
+        <script src="main.js"></script>
+    </body>
 </html>
