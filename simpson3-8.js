@@ -45,7 +45,4 @@ function simpson3_8(a, b, funcao){
 
 let resultado = simpson3_8(1, 3, fx);
 
-console.log(resultado);
-
-
-document.getElementById("resultado").innerHTML = resultado;
+document.getElementById("resultado-1").innerHTML = resultado;
